@@ -48,6 +48,12 @@ web_modules/
 # TypeScript cache
 *.tsbuildinfo
 
+# Waitlist data
+waitlist.csv
+
+# Contact form submissions
+contact-submissions.csv
+
 # Optional npm cache directory
 .npm
 

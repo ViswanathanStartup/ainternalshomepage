@@ -64,6 +64,15 @@ export const tools: Tool[] = [
     tags: ['job', 'learning', 'tech-stack', 'roadmap'],
     status: 'live'
   },
+  {
+    id: 'promptcraft',
+    name: 'PromptCraft',
+    description: 'Convert your prompt to high quality prompt using CLEAR Framework',
+    url: 'https://promptcraft.ainternals.com',
+    category: 'AI Tools',
+    tags: ['ai', 'prompt', 'clear', 'quality'],
+    status: 'live'
+  },
   // Add more tools here as you build them
 ]
 
@@ -74,5 +83,6 @@ export const categories = [
   'Documentation & Communication',
   'Testing & QA',
   'Performance & Optimization',
-  'Learning & Career'
+  'Learning & Career',
+  'AI Tools'
 ]

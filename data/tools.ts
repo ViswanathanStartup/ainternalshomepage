@@ -22,7 +22,7 @@ export const tools: Tool[] = [
   {
     id: 'cmg',
     name: 'Commit Message Generator',
-    description: 'Paste git diffs and get well-formatted, meaningful commit messages automatically',
+    description: 'Transform casual messages into professional, industry-standard commits',
     url: 'https://cmg.ainternals.com',
     category: 'Code Quality & Analysis',
     tags: ['git', 'commit', 'message', 'generator'],

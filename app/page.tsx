@@ -145,7 +145,7 @@ export default function Home() {
             >
               <p className="text-gray-400 text-sm mb-4">Built by a developer who cares about solving real problems</p>
               <a 
-                href="https://www.linkedin.com/in/viswanathansanthanam/"
+                href="https://www.linkedin.com/in/humanxai/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold text-xl hover:shadow-2xl hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300"

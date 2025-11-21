@@ -46,6 +46,15 @@ export const tools: Tool[] = [
     tags: ['testing', 'data', 'generator', 'mock'],
     status: 'live'
   },
+  {
+    id: 'ba',
+    name: 'Bundle Analyzer',
+    description: 'Analyze package.json to see bundle impact and get suggestions for lighter alternatives',
+    url: 'https://ba.ainternals.com',
+    category: 'Performance & Optimization',
+    tags: ['bundle', 'analyzer', 'performance', 'optimization'],
+    status: 'live'
+  },
   // Add more tools here as you build them
 ]
 
@@ -54,5 +63,6 @@ export const categories = [
   'Daily Dev Annoyances',
   'Code Quality & Analysis',
   'Documentation & Communication',
-  'Testing & QA'
+  'Testing & QA',
+  'Performance & Optimization'
 ]

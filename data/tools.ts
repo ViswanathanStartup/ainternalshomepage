@@ -28,11 +28,21 @@ export const tools: Tool[] = [
     tags: ['git', 'commit', 'message', 'generator'],
     status: 'live'
   },
+  {
+    id: 'cuc',
+    name: 'Can I Use Copilot',
+    description: 'Check if you can use GitHub Copilot for your specific use case and requirements',
+    url: 'https://cuc.ainternals.com',
+    category: 'Documentation & Communication',
+    tags: ['copilot', 'github', 'ai', 'compatibility'],
+    status: 'live'
+  },
   // Add more tools here as you build them
 ]
 
 export const categories = [
   'All',
   'Daily Dev Annoyances',
-  'Code Quality & Analysis'
+  'Code Quality & Analysis',
+  'Documentation & Communication'
 ]

@@ -31,7 +31,7 @@ export const tools: Tool[] = [
   {
     id: 'cuc',
     name: 'Can I Use Copilot',
-    description: 'Check if you can use GitHub Copilot for your specific use case and requirements',
+    description: 'Search for copilot use cases out of 608 usecases in this tool',
     url: 'https://cuc.ainternals.com',
     category: 'Documentation & Communication',
     tags: ['copilot', 'github', 'ai', 'compatibility'],

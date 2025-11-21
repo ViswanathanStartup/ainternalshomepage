@@ -37,6 +37,15 @@ export const tools: Tool[] = [
     tags: ['copilot', 'github', 'ai', 'compatibility'],
     status: 'live'
   },
+  {
+    id: 'tdg',
+    name: 'Test Data Generator',
+    description: 'Generate realistic test data (names, emails, addresses, credit cards)',
+    url: 'https://tdg.ainternals.com',
+    category: 'Testing & QA',
+    tags: ['testing', 'data', 'generator', 'mock'],
+    status: 'live'
+  },
   // Add more tools here as you build them
 ]
 
@@ -44,5 +53,6 @@ export const categories = [
   'All',
   'Daily Dev Annoyances',
   'Code Quality & Analysis',
-  'Documentation & Communication'
+  'Documentation & Communication',
+  'Testing & QA'
 ]

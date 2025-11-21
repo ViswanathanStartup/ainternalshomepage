@@ -83,7 +83,7 @@ export default function Home() {
               transition={{ delay: 0.6, duration: 0.8 }}
             >
               We build tools that solve real problems you face every day. Simple to use, easy to deploy, and genuinely useful.
-              <span className="text-gray-400 text-lg block mt-2">Free forever. Built by developers, for developers.</span>
+              <span className="text-gray-400 text-lg block mt-2">Free forever.</span>
             </motion.p>
 
             {/* Vision & Mission */}

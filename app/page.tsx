@@ -189,36 +189,71 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.4, duration: 0.8 }}
-              className="w-full max-w-6xl mx-auto"
+              className="w-full max-w-7xl mx-auto"
             >
-              {/* Section Title */}
-              <div className="text-center mb-8">
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                  Available Tools
-                </h2>
-                <p className="text-gray-400 text-lg">
-                  {tools.length} tool{tools.length !== 1 ? 's' : ''} and counting...
-                </p>
-              </div>
-
-              {/* Category Filter */}
-              <div className="flex flex-wrap justify-center gap-3 mb-8">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
-                      selectedCategory === category
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/50'
-                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                    }`}
+              {/* Section Header with Gradient Background */}
+              <div className="relative mb-12 text-center">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 blur-3xl"></div>
+                <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-12">
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 1.6, duration: 0.6 }}
                   >
-                    {category}
-                  </button>
-                ))}
+                    <h2 className="text-4xl md:text-6xl font-bold mb-4">
+                      <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        Developer Tools
+                      </span>
+                    </h2>
+                    <p className="text-gray-300 text-lg md:text-xl mb-2">
+                      {tools.length} tool{tools.length !== 1 ? 's' : ''} and counting
+                    </p>
+                    <p className="text-gray-400 text-sm md:text-base">
+                      Browse by category or explore all tools to find what you need
+                    </p>
+                  </motion.div>
+                </div>
               </div>
 
-              {/* Tools Grid */}
+              {/* Category Filter - Redesigned */}
+              <div className="mb-10">
+                <p className="text-gray-400 text-sm text-center mb-4">Filter by Category</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {categories.map((category) => (
+                    <motion.button
+                      key={category}
+                      onClick={() => setSelectedCategory(category)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`px-5 py-2.5 rounded-xl font-medium transition-all duration-300 text-sm ${
+                        selectedCategory === category
+                          ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 border border-blue-400/50'
+                          : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10 hover:border-white/20'
+                      }`}
+                    >
+                      {category}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tools Count Indicator */}
+              {selectedCategory !== 'All' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-center mb-6"
+                >
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-300 rounded-full text-sm border border-blue-500/20">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+                    </svg>
+                    {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''} in {selectedCategory}
+                  </span>
+                </motion.div>
+              )}
+
+              {/* Tools Grid - Enhanced Design */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredTools.map((tool, index) => (
                   <motion.a
@@ -226,45 +261,64 @@ export default function Home() {
                     href={tool.url}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.6 + index * 0.1, duration: 0.5 }}
-                    className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-blue-400/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 hover:-translate-y-1"
+                    transition={{ delay: 1.8 + index * 0.05, duration: 0.4 }}
+                    className="group relative bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:from-white/10 hover:to-white/5 hover:border-blue-400/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2"
                   >
-                    {/* Status Badge */}
-                    {tool.status === 'live' && (
-                      <div className="absolute top-4 right-4">
-                        <span className="flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-300 text-xs font-semibold rounded-full border border-green-500/30">
-                          <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
-                          Live
-                        </span>
+                    {/* Hover Glow Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 rounded-2xl transition-all duration-300"></div>
+                    
+                    <div className="relative">
+                      {/* Status Badge */}
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="flex-1">
+                          {tool.status === 'live' && (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-500/20 text-green-300 text-xs font-semibold rounded-full border border-green-500/30">
+                              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                              Live
+                            </span>
+                          )}
+                          {tool.status === 'coming-soon' && (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/20 text-amber-300 text-xs font-semibold rounded-full border border-amber-500/30">
+                              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                              </svg>
+                              Coming Soon
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    )}
 
-                    <div className="mb-4">
-                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
-                        {tool.name}
-                      </h3>
-                      <p className="text-gray-400 text-sm leading-relaxed">
-                        {tool.description}
-                      </p>
-                    </div>
+                      {/* Tool Info */}
+                      <div className="mb-4">
+                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-300 group-hover:to-purple-300 group-hover:bg-clip-text transition-all duration-300">
+                          {tool.name}
+                        </h3>
+                        <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
+                          {tool.description}
+                        </p>
+                      </div>
 
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2">
-                      {tool.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 bg-blue-500/10 text-blue-300 text-xs rounded-md border border-blue-500/20"
-                        >
-                          {tag}
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {tool.tags.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2.5 py-1 bg-blue-500/10 text-blue-300 text-xs rounded-lg border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Launch Button */}
+                      <div className="flex items-center justify-between pt-3 border-t border-white/5 group-hover:border-white/10 transition-colors">
+                        <span className="text-gray-400 text-xs font-medium group-hover:text-blue-300 transition-colors">
+                          {tool.status === 'live' ? 'Launch Tool' : 'Notify Me'}
                         </span>
-                      ))}
-                    </div>
-
-                    {/* Arrow Icon */}
-                    <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
+                        <svg className="w-5 h-5 text-gray-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </div>
                     </div>
                   </motion.a>
                 ))}
@@ -272,9 +326,17 @@ export default function Home() {
 
               {/* Coming Soon Message */}
               {filteredTools.length === 0 && (
-                <div className="text-center py-12">
-                  <p className="text-gray-400 text-lg">No tools in this category yet. Stay tuned!</p>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-center py-16 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl"
+                >
+                  <svg className="w-16 h-16 mx-auto mb-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                  </svg>
+                  <p className="text-gray-400 text-lg font-medium">No tools in this category yet</p>
+                  <p className="text-gray-500 text-sm mt-2">Check back soon! We're constantly adding new tools.</p>
+                </motion.div>
               )}
             </motion.div>
           </motion.div>

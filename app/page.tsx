@@ -259,6 +259,8 @@ export default function Home() {
                   <motion.a
                     key={tool.id}
                     href={tool.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.8 + index * 0.05, duration: 0.4 }}

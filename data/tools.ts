@@ -19,24 +19,20 @@ export const tools: Tool[] = [
     tags: ['json', 'diff', 'compare', 'viewer'],
     status: 'live'
   },
+  {
+    id: 'cmg',
+    name: 'Commit Message Generator',
+    description: 'Paste git diffs and get well-formatted, meaningful commit messages automatically',
+    url: 'https://cmg.ainternals.com',
+    category: 'Code Quality & Analysis',
+    tags: ['git', 'commit', 'message', 'generator'],
+    status: 'live'
+  },
   // Add more tools here as you build them
 ]
 
 export const categories = [
   'All',
   'Daily Dev Annoyances',
-  'Code Quality & Analysis',
-  'Documentation & Communication',
-  'Testing & QA',
-  'Performance & Optimization',
-  'Collaboration & Team Tools',
-  'Learning & Career',
-  'Data & API Tools',
-  'DevOps & Infrastructure',
-  'Git & Version Control',
-  'Security & Privacy',
-  'Frontend Specific',
-  'Backend Specific',
-  'Mobile Development',
-  'Miscellaneous Productivity'
+  'Code Quality & Analysis'
 ]

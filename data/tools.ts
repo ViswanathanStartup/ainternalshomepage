@@ -55,6 +55,15 @@ export const tools: Tool[] = [
     tags: ['bundle', 'analyzer', 'performance', 'optimization'],
     status: 'live'
   },
+  {
+    id: 'tsa',
+    name: 'Tech Stack Analyzer',
+    description: 'Paste job descriptions to get tech stack breakdowns and learning roadmaps',
+    url: 'https://tsa.ainternals.com',
+    category: 'Learning & Career',
+    tags: ['job', 'learning', 'tech-stack', 'roadmap'],
+    status: 'live'
+  },
   // Add more tools here as you build them
 ]
 
@@ -64,5 +73,6 @@ export const categories = [
   'Code Quality & Analysis',
   'Documentation & Communication',
   'Testing & QA',
-  'Performance & Optimization'
+  'Performance & Optimization',
+  'Learning & Career'
 ]

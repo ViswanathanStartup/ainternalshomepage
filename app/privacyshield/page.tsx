@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   ArrowLeft, 
@@ -14,10 +14,14 @@ import {
   Brain,
   Target,
   Zap,
-  Users
+  Users,
+  Menu,
+  X
 } from 'lucide-react';
 
 export default function PrivacyShieldPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50">
       {/* Navigation */}
@@ -29,11 +33,32 @@ export default function PrivacyShieldPage() {
             </div>
             <span className="text-gray-900 font-bold text-xl tracking-tight">AI Internals</span>
           </Link>
-          <Link href="/" className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm font-medium">Back to Home</span>
-          </Link>
+          <div className="hidden md:flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors">
+              <ArrowLeft className="w-4 h-4" />
+              <span className="text-sm font-medium">Back to Home</span>
+            </Link>
+          </div>
+          <button 
+            className="md:hidden text-gray-900"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+        
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200">
+            <div className="px-6 py-4 space-y-4">
+              <Link href="/" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+              <Link href="/products" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Products</Link>
+              <Link href="/#consulting" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Consulting</Link>
+              <Link href="/#training" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Training</Link>
+              <Link href="/contact" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}

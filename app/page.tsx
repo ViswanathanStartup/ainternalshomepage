@@ -12,12 +12,15 @@ import {
   ChevronRight, 
   Activity, 
   Lock,
-  Smartphone
+  Smartphone,
+  Menu,
+  X
 } from 'lucide-react';
 
 export default function Home() {
   const [text, setText] = useState('');
   const [phase, setPhase] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Cycling Terminal Messages
   const terminalPhases = [
@@ -83,7 +86,25 @@ export default function Home() {
             <a href="#training" className="text-gray-600 hover:text-blue-600 transition-colors">Training</a>
             <Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact Us</Link>
           </div>
+          <button 
+            className="md:hidden text-gray-900"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+        
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200">
+            <div className="px-6 py-4 space-y-4">
+              <Link href="/products" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Products</Link>
+              <a href="#consulting" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Consulting</a>
+              <a href="#training" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Training</a>
+              <Link href="/contact" className="block text-gray-600 hover:text-blue-600 transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}

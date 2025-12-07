@@ -1,359 +1,402 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { tools, categories } from '@/data/tools'
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { 
+  Shield, 
+  Terminal, 
+  Cpu, 
+  Zap, 
+  Server, 
+  BookOpen, 
+  ChevronRight, 
+  Activity, 
+  Lock,
+  Smartphone
+} from 'lucide-react';
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [text, setText] = useState('');
+  const [phase, setPhase] = useState(0);
 
-  const filteredTools = selectedCategory === 'All' 
-    ? tools 
-    : tools.filter(tool => tool.category === selectedCategory)
+  // Cycling Terminal Messages
+  const terminalPhases = [
+    "INITIALIZING MLOPS PIPELINE...",
+    "CONTAINERIZING MODEL WEIGHTS...",
+    "DEPLOYING TO PRODUCTION CLUSTER...",
+    "SCANNING FOR PII LEAKAGE...",
+    "VULNERABILITY DETECTED: PROMPT INJECTION",
+    "APPLYING SECURITY PATCH...",
+    "SYSTEM SECURE. DEPLOYMENT COMPLETE."
+  ];
+
+  useEffect(() => {
+    let currentText = "";
+    let phaseIndex = 0;
+    let isDeleting = false;
+    let timeout: NodeJS.Timeout;
+
+    const type = () => {
+      const fullText = terminalPhases[phaseIndex];
+      
+      if (isDeleting) {
+        currentText = fullText.substring(0, currentText.length - 1);
+        setText(currentText);
+      } else {
+        currentText = fullText.substring(0, currentText.length + 1);
+        setText(currentText);
+      }
+
+      let typeSpeed = isDeleting ? 20 : 50;
+
+      if (!isDeleting && currentText === fullText) {
+        typeSpeed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && currentText === "") {
+        isDeleting = false;
+        phaseIndex = (phaseIndex + 1) % terminalPhases.length;
+        setPhase(phaseIndex);
+      }
+
+      timeout = setTimeout(type, typeSpeed);
+    };
+
+    timeout = setTimeout(type, 100);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
-    <main className="min-h-screen bg-white relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40"
-          animate={{
-            scale: [1, 1.2, 1],
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40"
-          animate={{
-            scale: [1, 1.3, 1],
-            x: [0, -50, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Logo/Brand */}
-            <motion.div
-              className="inline-block mb-8"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              <h1 className="text-7xl md:text-9xl font-bold mb-4 tracking-tight">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-                  AInternals
-                </span>
-              </h1>
-            </motion.div>
-
-            {/* Tagline */}
-            <motion.h2
-              className="text-3xl md:text-5xl font-bold text-gray-900 mb-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            >
-              Developer Tools That Actually Make Your Day Better
-            </motion.h2>
-
-            {/* Description */}
-            <motion.p
-              className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed mb-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-            >
-              We build tools that solve real problems you face every day. Simple to use, easy to deploy, and genuinely useful.
-              <span className="text-gray-600 text-lg block mt-2">Free forever.</span>
-            </motion.p>
-
-            {/* Vision & Mission */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-              className="mb-16 max-w-2xl mx-auto"
-            >
-              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 md:p-10 shadow-sm">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">What We Believe In</h3>
-                <div className="space-y-4 text-left">
-                  <div className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <span className="text-gray-900 text-lg font-semibold block">Solve Real Problems</span>
-                      <span className="text-gray-600 text-sm">Every tool addresses actual challenges you face daily. Practical solutions that developers genuinely need and will use.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <span className="text-gray-900 text-lg font-semibold block">Fun to Build</span>
-                      <span className="text-gray-600 text-sm">Enjoyable projects that keep us engaged and constantly learning. Great tools come from passionate creators.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <span className="text-gray-900 text-lg font-semibold block">Easy to Launch</span>
-                      <span className="text-gray-600 text-sm">Simple deployment with minimal setup. Just open the tool and start using it—no complicated installation required.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <span className="text-gray-900 text-lg font-semibold block">Portfolio-Worthy Quality</span>
-                      <span className="text-gray-600 text-sm">Well-crafted projects built with care, thoughtful UX, and professional standards that showcase attention to detail.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* CTA Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.5 }}
-              className="mb-12"
-            >
-              <p className="text-gray-600 text-sm mb-4">Built by a developer who cares about solving real problems</p>
-              <a 
-                href="https://www.linkedin.com/in/humanxai/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold text-xl hover:shadow-2xl hover:shadow-blue-500/30 hover:scale-105 transition-all duration-300"
-              >
-                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                Connect on LinkedIn
-              </a>
-            </motion.div>
-
-            {/* Social Proof / Stats */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2, duration: 0.8 }}
-              className="flex flex-wrap justify-center gap-8 text-gray-600 text-sm mb-16"
-            >
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-                </svg>
-                <span>Fast, simple, powerful</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-pink-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                </svg>
-                <span>Free to start</span>
-              </div>
-            </motion.div>
-
-            {/* Tools Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.4, duration: 0.8 }}
-              className="w-full max-w-7xl mx-auto"
-            >
-              {/* Section Header with Gradient Background */}
-              <div className="relative mb-12 text-center">
-                <div className="relative bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border border-gray-200 rounded-3xl p-8 md:p-12 shadow-sm">
-                  <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 1.6, duration: 0.6 }}
-                  >
-                    <h2 className="text-4xl md:text-6xl font-bold mb-4">
-                      <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                        Developer Tools
-                      </span>
-                    </h2>
-                    <p className="text-gray-700 text-lg md:text-xl mb-2">
-                      {tools.length} tool{tools.length !== 1 ? 's' : ''} and counting
-                    </p>
-                    <p className="text-gray-600 text-sm md:text-base">
-                      Browse by category or explore all tools to find what you need
-                    </p>
-                  </motion.div>
-                </div>
-              </div>
-
-              {/* Category Filter - Redesigned */}
-              <div className="mb-10">
-                <p className="text-gray-600 text-sm text-center mb-4">Filter by Category</p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {categories.map((category) => (
-                    <motion.button
-                      key={category}
-                      onClick={() => setSelectedCategory(category)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`px-5 py-2.5 rounded-xl font-medium transition-all duration-300 text-sm ${
-                        selectedCategory === category
-                          ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/20 border border-blue-500'
-                          : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-gray-400 shadow-sm'
-                      }`}
-                    >
-                      {category}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tools Count Indicator */}
-              {selectedCategory !== 'All' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-center mb-6"
-                >
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm border border-blue-200">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
-                    </svg>
-                    {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''} in {selectedCategory}
-                  </span>
-                </motion.div>
-              )}
-
-              {/* Tools Grid - Enhanced Design */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredTools.map((tool, index) => (
-                  <motion.a
-                    key={tool.id}
-                    href={tool.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.8 + index * 0.05, duration: 0.4 }}
-                    className="group relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-400 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-2"
-                  >
-                    {/* Hover Glow Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-purple-50/0 group-hover:from-blue-50/50 group-hover:to-purple-50/50 rounded-2xl transition-all duration-300"></div>
-                    
-                    <div className="relative">
-                      {/* Status Badge */}
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="flex-1">
-                          {tool.status === 'live' && (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-200">
-                              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                              Live
-                            </span>
-                          )}
-                          {tool.status === 'coming-soon' && (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">
-                              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                              </svg>
-                              Coming Soon
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Tool Info */}
-                      <div className="mb-4">
-                        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition-all duration-300">
-                          {tool.name}
-                        </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-                          {tool.description}
-                        </p>
-                      </div>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {tool.tags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs rounded-lg border border-blue-200 group-hover:bg-blue-100 transition-colors"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Launch Button */}
-                      <div className="flex items-center justify-between pt-3 border-t border-gray-100 group-hover:border-gray-200 transition-colors">
-                        <span className="text-gray-600 text-xs font-medium group-hover:text-blue-600 transition-colors">
-                          {tool.status === 'live' ? 'Launch Tool' : 'Notify Me'}
-                        </span>
-                        <svg className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                      </div>
-                    </div>
-                  </motion.a>
-                ))}
-              </div>
-
-              {/* Coming Soon Message */}
-              {filteredTools.length === 0 && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center py-16 bg-gray-50 border border-gray-200 rounded-2xl"
-                >
-                  <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                  </svg>
-                  <p className="text-gray-700 text-lg font-medium">No tools in this category yet</p>
-                  <p className="text-gray-500 text-sm mt-2">Check back soon! We're constantly adding new tools.</p>
-                </motion.div>
-              )}
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Footer */}
-        <motion.footer
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 0.8 }}
-          className="relative mt-20 pb-8 text-center"
-        >
-          <div className="flex flex-wrap justify-center gap-6 text-gray-600 text-sm mb-4">
-            <a href="/privacy" className="hover:text-blue-600 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-blue-600 transition-colors">Terms</a>
-            <a href="/cookies" className="hover:text-blue-600 transition-colors">Cookies</a>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 text-gray-800 font-sans selection:bg-blue-100 selection:text-blue-900">
+      
+      {/* Navigation */}
+      <nav className="border-b border-gray-200 bg-white/90 backdrop-blur-md fixed w-full z-50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+              <Terminal className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-gray-900 font-bold text-xl tracking-tight">AI Internals</span>
           </div>
-          <p className="text-gray-500 text-sm">
-            © 2025 AInternals. All rights reserved.
+          <div className="hidden md:flex space-x-8 text-sm font-medium">
+            <Link href="/products" className="text-gray-600 hover:text-blue-600 transition-colors">Products</Link>
+            <a href="#consulting" className="text-gray-600 hover:text-blue-600 transition-colors">Consulting</a>
+            <a href="#training" className="text-gray-600 hover:text-blue-600 transition-colors">Training</a>
+            <Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact Us</Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6 max-w-7xl mx-auto min-h-[90vh] flex items-center">
+        <div className="flex flex-col md:flex-row items-center justify-between w-full gap-12">
+          <div className="md:w-1/2 space-y-8">
+            <div className="inline-flex items-center space-x-2 bg-blue-50 border border-blue-200 px-4 py-2 rounded-full text-sm text-blue-700 font-medium shadow-sm">
+              <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+              <span>For Everyone. From Enterprises to Individuals.</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight leading-tight">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600">
+                Safe AI for All
+              </span>
+            </h1>
+            
+            <p className="text-xl text-gray-600 max-w-lg leading-relaxed">
+              Empowering organizations and individuals to use AI safely and ship it confidently. From MLOps pipelines and production deployment to enterprise security, compliance, and personal privacy education — we make AI accessible, safe, and production-ready for everyone.
+            </p>
+
+            <div className="flex">
+              <Link href="/products" className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl">
+                <span>Explore Our Tools</span>
+                <ChevronRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Visual Card */}
+          <div className="md:w-1/2 mt-12 md:mt-0 w-full">
+            <div className="relative bg-white border-2 border-gray-200 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-shadow">
+              <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-200">
+                <div className="flex space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-gradient-to-br from-green-400 to-green-600 shadow-sm"></div>
+                  <div className="w-3 h-3 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-sm"></div>
+                  <div className="w-3 h-3 rounded-full bg-gradient-to-br from-red-400 to-red-600 shadow-sm"></div>
+                </div>
+                <div className="text-gray-500 text-xs font-semibold uppercase tracking-wider">AI Pipeline Status</div>
+              </div>
+              <div className="flex-1 font-mono text-sm mb-6">
+                <p className="text-blue-600 font-semibold">▶ {text}<span className="animate-pulse">|</span></p>
+              </div>
+              <div className="grid grid-cols-3 gap-3 text-xs font-semibold">
+                <div className={`rounded-lg p-3 text-center transition-all ${phase < 3 ? 'bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 border-2 border-blue-300' : 'bg-gray-50 text-gray-400 border border-gray-200'}`}>
+                  <div className="text-lg mb-1">🔧</div>
+                  <div>BUILD</div>
+                </div>
+                <div className={`rounded-lg p-3 text-center transition-all ${phase >= 3 && phase < 5 ? 'bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-2 border-green-300' : 'bg-gray-50 text-gray-400 border border-gray-200'}`}>
+                  <div className="text-lg mb-1">🛡️</div>
+                  <div>SECURE</div>
+                </div>
+                <div className={`rounded-lg p-3 text-center transition-all ${phase >= 5 ? 'bg-gradient-to-br from-purple-50 to-purple-100 text-purple-700 border-2 border-purple-300' : 'bg-gray-50 text-gray-400 border border-gray-200'}`}>
+                  <div className="text-lg mb-1">🚀</div>
+                  <div>LAUNCH</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Products */}
+      <section className="py-32 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center space-y-8">
+            <div className="inline-flex items-center space-x-2 bg-blue-50 border border-blue-200 px-4 py-2 rounded-full text-sm text-blue-700 font-medium shadow-sm">
+              <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+              <span>In Active Development</span>
+            </div>
+            
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+              Tools to Use AI<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600">
+                Safely & Responsibly
+              </span>
+            </h2>
+            
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              We're building essential infrastructure for teams deploying AI to production. Products focused on security, privacy, compliance, and operational excellence. Because shipping AI shouldn't mean compromising on safety.
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-6 pt-8 max-w-4xl mx-auto">
+              <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-2xl border border-blue-100">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Shield className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Security First</h3>
+                <p className="text-sm text-gray-600">Guardrails and monitoring to prevent vulnerabilities</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl border border-green-100">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Lock className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Privacy Focused</h3>
+                <p className="text-sm text-gray-600">Automatic PII detection and data protection</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 to-white p-6 rounded-2xl border border-purple-100">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Activity className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Always Compliant</h3>
+                <p className="text-sm text-gray-600">Built-in compliance with GDPR and EU AI Act</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Consulting Section */}
+      <section id="consulting" className="min-h-screen py-32 bg-gradient-to-br from-gray-50 to-white flex items-center">
+        <div className="max-w-7xl mx-auto px-6 w-full">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center space-x-2 bg-blue-50 border border-blue-200 px-4 py-2 rounded-full text-sm text-blue-700 font-medium shadow-sm mb-6">
+              <span>Professional Services</span>
+            </div>
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Consulting</h2>
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Partner with our experts to build, secure, and scale your AI systems with confidence.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto mb-16">
+            <Link href="/consulting#engineering" className="bg-white p-10 rounded-2xl border-2 border-gray-200 hover:border-blue-500 hover:shadow-xl transition-all group">
+              <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-200 transition-colors">
+                <Cpu className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Engineering</h3>
+              <p className="text-gray-600 leading-relaxed mb-6 text-lg">
+                MLOps pipelines, performance optimization, and cloud architecture.
+              </p>
+              <div className="flex items-center text-blue-600 font-semibold group-hover:gap-2 transition-all">
+                <span>Learn more</span>
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </Link>
+
+            <Link href="/consulting#security" className="bg-white p-10 rounded-2xl border-2 border-gray-200 hover:border-green-500 hover:shadow-xl transition-all group">
+              <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-green-200 transition-colors">
+                <Shield className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Security</h3>
+              <p className="text-gray-600 leading-relaxed mb-6 text-lg">
+                AI security audits, red teaming, and compliance assessments.
+              </p>
+              <div className="flex items-center text-green-600 font-semibold group-hover:gap-2 transition-all">
+                <span>Learn more</span>
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </Link>
+
+            <Link href="/consulting#privacy" className="bg-white p-10 rounded-2xl border-2 border-gray-200 hover:border-purple-500 hover:shadow-xl transition-all group">
+              <div className="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-200 transition-colors">
+                <Lock className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Privacy</h3>
+              <p className="text-gray-600 leading-relaxed mb-6 text-lg">
+                Privacy-preserving AI, PII protection, and data governance.
+              </p>
+              <div className="flex items-center text-purple-600 font-semibold group-hover:gap-2 transition-all">
+                <span>Learn more</span>
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </Link>
+          </div>
+
+          <div className="text-center bg-white rounded-2xl p-10 max-w-4xl mx-auto shadow-lg border border-gray-200">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Approach</h3>
+            <div className="grid md:grid-cols-3 gap-8 mt-8">
+              <div>
+                <div className="text-4xl mb-2">🎯</div>
+                <p className="font-semibold text-gray-900 mb-2">Practical Solutions</p>
+                <p className="text-gray-600 text-sm">Real-world approaches that work for your specific use case</p>
+              </div>
+              <div>
+                <div className="text-4xl mb-2">🔍</div>
+                <p className="font-semibold text-gray-900 mb-2">Transparent Process</p>
+                <p className="text-gray-600 text-sm">Clear communication and honest assessments at every step</p>
+              </div>
+              <div>
+                <div className="text-4xl mb-2">🤝</div>
+                <p className="font-semibold text-gray-900 mb-2">Partnership Focused</p>
+                <p className="text-gray-600 text-sm">We work alongside your team to build lasting capabilities</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Training Section */}
+      <section id="training" className="min-h-screen py-32 bg-white flex items-center">
+        <div className="max-w-7xl mx-auto px-6 w-full">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center space-x-2 bg-purple-50 border border-purple-200 px-4 py-2 rounded-full text-sm text-purple-700 font-medium shadow-sm mb-6">
+              <span>Education & Workshops</span>
+            </div>
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Training</h2>
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Empower your team with cutting-edge AI skills through our comprehensive training programs.
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto mb-16">
+            <Link href="/training" className="bg-gradient-to-br from-purple-50 to-white p-10 rounded-2xl border-2 border-gray-200 hover:border-purple-500 hover:shadow-xl transition-all group block">
+              <div className="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-200 transition-colors">
+                <BookOpen className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Corporate Training & Certification Programs</h3>
+              <p className="text-gray-600 leading-relaxed mb-6 text-lg">
+                Hands-on workshops and certification programs designed to bring your team up to speed with modern AI development, deployment, and security practices.
+              </p>
+              
+              <div className="grid md:grid-cols-2 gap-8 mb-6">
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-3 text-lg">Technical Training</h4>
+                  <ul className="space-y-2">
+                    <li className="flex items-start space-x-3">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2"></div>
+                      <span className="text-gray-700">MLOps fundamentals and best practices</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2"></div>
+                      <span className="text-gray-700">Production AI deployment strategies</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2"></div>
+                      <span className="text-gray-700">LLM fine-tuning and optimization</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2"></div>
+                      <span className="text-gray-700">Model monitoring and observability</span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-3 text-lg">Security & Compliance</h4>
+                  <ul className="space-y-2">
+                    <li className="flex items-start space-x-3">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2"></div>
+                      <span className="text-gray-700">AI security fundamentals</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2"></div>
+                      <span className="text-gray-700">Privacy-preserving AI techniques</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2"></div>
+                      <span className="text-gray-700">GDPR and EU AI Act compliance</span>
+                    </li>
+                    <li className="flex items-start space-x-3">
+                      <div className="w-1.5 h-1.5 bg-purple-600 rounded-full mt-2"></div>
+                      <span className="text-gray-700">Red teaming and adversarial testing</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="flex items-center text-purple-600 font-semibold group-hover:gap-2 transition-all">
+                <span>Explore training programs</span>
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="bg-gradient-to-br from-purple-50 to-white p-8 rounded-2xl border border-gray-200 text-center">
+              <div className="text-4xl font-bold text-purple-600 mb-2">2-5 Days</div>
+              <p className="text-gray-900 font-semibold mb-2">Workshop Duration</p>
+              <p className="text-gray-600 text-sm">Flexible scheduling to fit your team</p>
+            </div>
+            <div className="bg-gradient-to-br from-purple-50 to-white p-8 rounded-2xl border border-gray-200 text-center">
+              <div className="text-4xl font-bold text-purple-600 mb-2">On-site</div>
+              <p className="text-gray-900 font-semibold mb-2">Training Options</p>
+              <p className="text-gray-600 text-sm">Or virtual sessions available</p>
+            </div>
+            <div className="bg-gradient-to-br from-purple-50 to-white p-8 rounded-2xl border border-gray-200 text-center">
+              <div className="text-4xl font-bold text-purple-600 mb-2">Certified</div>
+              <p className="text-gray-900 font-semibold mb-2">Upon Completion</p>
+              <p className="text-gray-600 text-sm">Industry-recognized certificates</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-24 bg-gradient-to-br from-blue-600 to-purple-600">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Get In Touch</h2>
+          <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+            Ready to build secure, scalable AI systems? Whether you need consulting, training, or our products — let's discuss how we can help you succeed.
           </p>
-        </motion.footer>
-      </div>
-    </main>
-  )
+          <Link href="/contact" className="inline-block bg-white text-blue-600 px-10 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl">
+            Contact Us
+          </Link>
+        </div>
+      </section>
+      
+      {/* Footer */}
+      <footer className="py-16 border-t border-gray-200 text-center bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <Terminal className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-bold text-xl text-gray-900">AI Internals</span>
+          </div>
+          <p className="text-gray-600 mb-6">Transforming AI innovation into production reality</p>
+          <p className="text-gray-500 text-sm">&copy; 2025 AI Internals, a SansqrTech Company. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  );
 }
